@@ -1,0 +1,37 @@
+<nav class="navbar navbar-expand-sm navbar-dark bg-dark mb-5">
+    <!-- Brand -->
+    <a class="navbar-brand" href="{{url_for('index') }}">cBlog</a>
+    <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId"
+        aria-controls="collapsibleNavId" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="collapsibleNavId">
+        <!-- Left -->
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('index') }}">Home</a>
+            </li>
+        </ul>
+        <!-- Right -->
+        <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+            {% if current_user.is_authenticated %}
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('create_post') }}">New Post</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('account', id=current_user.id) }}">Account</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('logout') }}">Log out</a>
+            </li>
+            {% else %}
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('signup') }}">Sign up</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('login') }}">Log in</a>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
+</nav>

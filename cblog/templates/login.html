@@ -1,0 +1,50 @@
+{% extends "base.html"%}
+
+{% block content %}
+
+<div class="card text-white bg-dark px-5 pt-5 pb-1">
+    <h3 class="card-header mb-2 border-bottom bg-dark">Log in</h3>
+    <div class="card-body">
+        <form method="post">
+            {{ form.hidden_tag() }}
+            <div class="form-group">
+                {{ form.email.label }}
+                {% if form.email.errors %}
+                {{ form.email(class="form-control is-invalid") }}
+                <div class="invalid-feeback">
+                    {% for error in form.email.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else%}
+                {{ form.email(class='form-control')}}
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                {{ form.password.label }}
+                {% if form.password.errors %}
+                {{ form.password(class="form-control is-invalid") }}
+                <div class="invalid-feeback">
+                    {% for error in form.password.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else%}
+                {{ form.password(class='form-control')}}
+                {% endif %}
+            </div>
+            <div class="form-check">
+                {{ form.remember_me(class="form-check-input")}}
+                {{ form.remember_me.label(class="form-check-label")}}
+            </div>
+
+            {{ form.submit(class="btn btn-primary btn-lg mt-3") }}
+        </form>
+        <p class="small mt-5 pt-1 border-top border-light">Already have an account? <a href="{{url_for('signup')}}">Sign
+                up</a>
+        </p>
+    </div>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,77 @@
+{% extends "base.html"%}
+
+{% block content %}
+
+<div class="card text-white bg-dark">
+    <div class="card-body">
+        <div class="d-flex mb-4">
+            <div class="d-inline-flex">
+                <img src="{{image_src}}" class="profile_thumbnail rounded-circle mr-2" alt="">
+                <div class="media-body my-auto">
+                    <h3>{{user.username}}</h3>
+                </div>
+
+            </div>
+        </div>
+        <div>
+            <h4 class="border-bottom border-light">About me</h4>
+            <p>
+                {% if user.about_me %}
+                {{user.about_me}}
+                {% else %}
+                This user hasnt introduced themselves yet.
+                {% endif %}
+            </p>
+        </div>
+        <div class="mt-3 pt-4">
+            {% if current_user == user %}
+
+            <a id="" class="btn btn-primary mr-2" href="{{url_for('update_account', id=user.id)}}" role="button">Update
+                information</a>
+            <a id="" class="btn btn-danger" href="{{url_for('delete_account', id=user.id)}}" role="button">Delete
+                account</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<div class="my-5">
+    {% for post in posts.items %}
+    <div class="card text-white bg-dark mb-4">
+        <div class="py-3 px-3">
+            <div class="d-flex border-bottom border-light">
+                <div class="pt-auto d-inline-flex">
+                    <a href="{{url_for('post', id=post.id)}}">
+                        <h4 class='mr-2 text-white'>{{post.title}}</h4>
+                    </a>
+                    <span class="text-secondary post-date align-bottom">{{post.created_on.strftime('%Y-%m-%d')}}</span>
+                    <a class="mx-2" href="{{url_for('account', id=post.user.id)}}">
+                        <img src="{{url_for('static', filename='profile_pics/' + post.user.profile_pic)}}"
+                            class="rounded-circle inline-profile" alt="">
+                        {{ post.user.username}}
+                    </a>
+                </div>
+            </div>
+            <div class="d-flex card-body bg-dark px-0">
+                <p class="text-white">{{post.text}}</p>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    <div class="d-flex justify-content-center">
+        {% for page in posts.iter_pages(left_edge=1, left_current=2, right_current=2, right_edge=1) %}
+        {% if not page %}
+        <a name="" id="" class="btn disabled btn-outline-secondary text-secondary m-1" href="" role="button">...</a>
+        {% else %}
+        {% if page == posts.page %}
+        <a name="" id="" class="btn btn-primary m-1" href="{{url_for('account', id=user.id, page=page)}}"
+            role="button">{{page}}</a>
+        {% else %}
+        <a name="" id="" class="btn btn-outline-primary m-1" href="{{url_for('account', id=user.id, page=page)}}"
+            role="button">{{page}}</a>
+        {% endif %}
+        {% endif %}
+        {% endfor %}
+    </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,14 @@
+.profile_thumbnail{
+    width:100px;
+    height: 100px;
+}
+
+.inline-profile{
+    width: 25px;
+    height: 25px;
+}
+
+.post-date{
+    font-size: 0.7rem;
+    vertical-align: bottom;
+}

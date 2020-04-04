@@ -1,0 +1,27 @@
+{% extends "base.html"%}
+
+{% block content %}
+<div class="card text-white bg-dark">
+    <div class="py-3 px-3">
+        <div class="d-flex border-bottom border-light">
+            <div class="pt-auto d-inline-flex">
+                <h4 class='mr-2 text-white'>{{post.title}}</h4>
+                <span class="text-secondary post-date align-bottom">{{post.created_on.strftime('%Y-%m-%d')}}</span>
+                <a class="mx-2" href="{{url_for('account', id=post.user.id)}}">
+                    <img src="{{url_for('static', filename='profile_pics/' + post.user.profile_pic)}}"
+                        class="rounded-circle inline-profile" alt="">
+                    {{ post.user.username}}
+                </a>
+            </div>
+        </div>
+        <div class="d-flex card-body bg-dark px-0">
+            <p class="text-white">{{post.text}}</p>
+        </div>
+        {% if current_user == post.user %}
+        <a id="" class="btn btn-primary mr-2" href="{{url_for('update_post', id=post.id)}}" role="button">Update</a>
+        <a id="" class="btn btn-danger" href="{{url_for('delete_post', id=post.id)}}" role="button">Delete</a>
+
+        {% endif %}
+    </div>
+</div>
+{% endblock content %}
