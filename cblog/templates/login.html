@@ -39,7 +39,11 @@
                 {{ form.remember_me.label(class="form-check-label")}}
             </div>
 
-            {{ form.submit(class="btn btn-primary btn-lg mt-3") }}
+            <div class="form-group">
+                {{ form.submit(class="btn btn-primary btn-lg mt-3") }}
+                <a class="ml-2 small text-success align-bottom" href="{{url_for('reset_password_link')}}">Forgot
+                    password?</a>
+            </div>
         </form>
         <p class="small mt-5 pt-1 border-top border-light">Already have an account? <a href="{{url_for('signup')}}">Sign
                 up</a>

@@ -36,8 +36,11 @@ class User(db.Model, UserMixin):
     @staticmethod
     def check_token(token):
         s = Serializer(secret_key=app.config.get("SECRET_KEY"))
-        response = s.loads(token)
-        return response
+        try:
+            response = s.loads(token)
+        except:
+            return None
+        return User.query.get(response["user_id"])
 
 
 class Post(db.Model):

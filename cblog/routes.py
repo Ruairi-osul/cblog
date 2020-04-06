@@ -54,26 +54,26 @@ def signup():
     return render_template("signup.html", title="Sign up", form=form)
 
 
-@app.route("/reset_password_link")
+@app.route("/reset_password_link", methods=["GET", "POST"])
 def reset_password_link():
     if current_user.is_authenticated:
         return redirect(url_for("index"))
     form = ResetPasswordLinkForm()
     if form.validate_on_submit():
-        send_reset_email(form.email.data)
+        user = User.query.filter_by(email=form.email.data).first()
+        send_reset_email(user)
         flash(
             "Instructions on how to reset your password have been sent to your email.",
             category="success",
         )
         return redirect(url_for("login"))
-    # TODO make this template
     return render_template(
         "reset_password_link.html", title="Reset Password", form=form
     )
 
 
 # TODO: create reset_password route
-@app.route("reset_password")
+@app.route("/reset_password", methods=["GET", "POST"])
 def reset_password():
     if current_user.is_authenticated:
         return redirect(url_for("index"))
@@ -86,7 +86,9 @@ def reset_password():
         return redirect(url_for("index"))
     form = ResetPasswordForm()
     if form.validate_on_submit():
-        pass
+        password = bcrypt.generate_password_hash(form.password.data)
+        user = User.query.get(id["user_id"])
+
     return render_template("reset_password.html", title="reset_password", form=form)
 
 
@@ -128,11 +130,7 @@ def account(id):
     )
     image_src = url_for("static", filename=f"profile_pics/{user.profile_pic}")
     return render_template(
-        "account.html",
-        title=user.username,
-        image_src=image_src,
-        user=user,
-        posts=posts,
+        "account.html", title=user.username, image_src=image_src, user=user, posts=posts
     )
 
 

@@ -53,7 +53,7 @@ class ResetPasswordLinkForm(FlaskForm):
     submit = SubmitField("Send reset link")
 
     def validate_email(self, email):
-        account_with_email = User.query.filter_by(email=email.data).fist()
+        account_with_email = User.query.filter_by(email=email.data).first()
         if not account_with_email:
             raise ValidationError("There is no account for that email address.")
 

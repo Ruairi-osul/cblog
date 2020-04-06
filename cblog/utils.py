@@ -1,8 +1,10 @@
+from flask import url_for
 from PIL import Image
 from secrets import token_hex
 from pathlib import Path
 from .models import User
-from cblog import app
+from cblog import app, mail
+from flask_mail import Message
 
 
 def save_profile_pic(form_picture_data, output_size=(200, 200), file_name_size=100):
@@ -28,11 +30,19 @@ def save_profile_pic(form_picture_data, output_size=(200, 200), file_name_size=1
 
 
 # TODO Write email sending function
-def send_reset_email(email_address, secs_until_expire=1800, key="token"):
+def send_reset_email(user, secs_until_expire=1800, key="token"):
     """
     Sends a reset link to an email address.
 
     The link contains a link to the reset form route with a query string
     containing a time-expiring token.
     """
-    pass
+    token = user.generate_token(secs_until_expire)
+    m = Message(
+        subject="Reset password | cBlog",
+        sender=app.config.get("MAIL_USER"),
+        recipients=[user.email],
+    )
+    m.body = f"""A request has been made to change your password. To reset your password, click here: {url_for('reset_password', token=token, _external=True)}.
+    If you do not wish to reset your password, ignore this message and no changes will be made."""
+    mail.send(m)

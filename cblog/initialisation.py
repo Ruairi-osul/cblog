@@ -7,14 +7,16 @@ from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from flask_mail import Mail
 
-# TODO set configuration options for flask mail
 app = Flask(__name__)
 load_dotenv()
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///db.sqlite"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY")
+app.config["MAIL_SERVER"] = "smtp.gmail.com"
+app.config["MAIL_USE_TLS"] = True
+app.config["MAIL_PORT"] = 587
 app.config["MAIL_USER"] = os.environ.get("GMAIL_USER")
-app.config["MAIL_PASSWORD"] = os.environ.get("GMAIL_PASSWROD")
+app.config["MAIL_PASSWORD"] = os.environ.get("GMAIL_PASSWORD")
 mail = Mail(app)
 db = SQLAlchemy(app)
 Migrate(app, db)
