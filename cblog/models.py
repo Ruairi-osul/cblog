@@ -1,4 +1,5 @@
-from cblog import db, app, login_manager
+from .extentions import db, login_manager
+from flask import current_app
 from flask_login import UserMixin
 from datetime import datetime
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
@@ -30,7 +31,9 @@ class User(db.Model, UserMixin):
         Returns:
             token [str]
         """
-        s = Serializer(secret_key=app.config.get("SECRET_KEY"), expires_in=expires_in)
+        s = Serializer(
+            secret_key=current_app.config.get("SECRET_KEY"), expires_in=expires_in
+        )
         return s.dumps({"user_id": self.id}).decode("utf-8")
 
     @staticmethod

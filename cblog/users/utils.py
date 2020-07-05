@@ -1,10 +1,10 @@
-from flask import url_for
+from flask import url_for, current_app
 from PIL import Image
 from secrets import token_hex
 from pathlib import Path
-from .models import User
-from cblog import app, mail
 from flask_mail import Message
+from ..models import User
+from ..extentions import mail
 
 
 def save_profile_pic(form_picture_data, output_size=(200, 200), file_name_size=100):
@@ -29,7 +29,6 @@ def save_profile_pic(form_picture_data, output_size=(200, 200), file_name_size=1
     return fn
 
 
-# TODO Write email sending function
 def send_reset_email(user, secs_until_expire=1800, key="token"):
     """
     Sends a reset link to an email address.

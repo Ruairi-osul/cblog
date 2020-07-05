@@ -1,15 +1,9 @@
-from flask_wtf import FlaskForm
+from ..models import User
 from flask_login import current_user
+from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
-from wtforms.fields import (
-    StringField,
-    PasswordField,
-    BooleanField,
-    SubmitField,
-    TextAreaField,
-)
-from wtforms.validators import Length, DataRequired, EqualTo, Email, ValidationError
-from .models import User, Post
+from wtforms import StringField, PasswordField, SubmitField, BooleanField
+from wtforms.validators import ValidationError, DataRequired, Email, Length, EqualTo
 
 
 class SignUpForm(FlaskForm):
@@ -100,15 +94,3 @@ class DeleteProfileForm(FlaskForm):
         validators=[DataRequired()],
     )
     submit = SubmitField("Delete account")
-
-
-class CreatePostForm(FlaskForm):
-    title = StringField(label="Title", validators=[DataRequired()])
-    text = TextAreaField(label="Content", validators=[DataRequired()])
-    submit = SubmitField("Post")
-
-
-class UpdatePostForm(FlaskForm):
-    title = StringField(label="Title", validators=[DataRequired()])
-    text = TextAreaField(label="Content", validators=[DataRequired()])
-    submit = SubmitField("Update")
